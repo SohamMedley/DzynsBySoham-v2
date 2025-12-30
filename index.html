@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DZYNSBYSOHAM | PORTFOLIO</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #030303;
+            --tile: rgba(255, 255, 255, 0.03);
+            --tile-hover: rgba(255, 255, 255, 0.06);
+            --tile-border: rgba(255, 255, 255, 0.08);
+            
+            /* UPDATED: Ruby Pink Accent */
+            --accent: #ff0055; 
+            
+            --text-main: #ffffff;
+            --text-dim: #888888;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Syne', sans-serif;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            padding: 1rem;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+        }
+
+        a { text-decoration: none; color: inherit; display: block; }
+
+        .dashboard {
+            max-width: 1200px;
+            margin: 2rem auto;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 1rem;
+        }
+
+        /* --- TILE SYSTEM --- */
+        .tile {
+            background: var(--tile);
+            border: 1px solid var(--tile-border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tile:hover {
+            background: var(--tile-hover);
+            border-color: rgba(255,255,255,0.25);
+            transform: translateY(-2px);
+        }
+
+        /* --- GRID SPANS --- */
+        .col-12 { grid-column: span 12; }
+        .col-8  { grid-column: span 8; }
+        .col-6  { grid-column: span 6; }
+        .col-4  { grid-column: span 4; }
+        .col-3  { grid-column: span 3; }
+        .col-2  { grid-column: span 2; } 
+
+        /* --- RESPONSIVE BREAKPOINTS --- */
+        @media (max-width: 1024px) {
+            .col-2 { grid-column: span 6; } 
+            .col-4 { grid-column: span 6; } 
+            .col-8 { grid-column: span 12; } 
+        }
+
+        @media (max-width: 768px) {
+            .col-12, .col-8, .col-6, .col-4, .col-3, .col-2 { grid-column: span 12; }
+            .dashboard { margin: 0; gap: 0.8rem; }
+            body { padding: 0.8rem; }
+            h1 { font-size: 2.5rem !important; }
+            .tile { padding: 1.25rem; }
+        }
+
+        /* --- TYPOGRAPHY --- */
+        h1 { 
+            font-weight: 800; 
+            font-size: clamp(2.5rem, 5vw, 4rem); 
+            text-transform: uppercase; 
+            line-height: 0.9; 
+            color: var(--accent); 
+            margin-bottom: 0.5rem;
+        }
+        
+        h2 { 
+            font-weight: 700;
+            font-size: 1.4rem; 
+            text-transform: uppercase; 
+            color: #fff; 
+            margin-bottom: 0.5rem; 
+        }
+        
+        .label { 
+            font-size: 0.75rem; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            color: var(--text-dim); 
+            margin-bottom: 0.8rem; 
+            display: block; 
+            font-weight: 600;
+        }
+        
+        .value { font-size: 1.2rem; font-weight: 700; }
+        
+        p, .text-dim { font-weight: 400; }
+        
+        .big-stat { 
+            font-weight: 800;
+            font-size: clamp(2rem, 3.5vw, 3rem); 
+            line-height: 1; 
+            color: #fff; 
+        }
+
+        .text-accent { color: var(--accent); }
+        .text-dim { color: var(--text-dim); font-size: 0.9rem; line-height: 1.4; }
+
+        /* --- IMAGES --- */
+        .port-img-container {
+            width: 100%;
+            aspect-ratio: 16/9;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            border: 1px solid var(--tile-border);
+        }
+
+        .port-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .tile:hover .port-img { transform: scale(1.05); }
+
+        /* --- BUTTONS --- */
+        .btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Default accent fallback */
+            background: var(--accent);
+            color: #fff;
+            font-weight: 800;
+            padding: 1rem;
+            border-radius: 12px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            margin-top: auto;
+            width: 100%;
+            transition: 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            box-shadow: 0 0 20px rgba(255, 0, 85, 0.4);
+            transform: scale(1.02);
+        }
+
+        /* WHATSAPP BUTTON STYLE */
+        .btn-whatsapp {
+            background: #25D366; /* Official WhatsApp Green */
+            color: #fff;
+        }
+        .btn-whatsapp:hover {
+            box-shadow: 0 0 20px rgba(37, 211, 102, 0.4);
+        }
+
+        /* INSTAGRAM BUTTON STYLE (GRADIENT) */
+        .btn-instagram {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            color: #fff;
+            border: none;
+        }
+        .btn-instagram:hover {
+            box-shadow: 0 0 20px rgba(220, 39, 67, 0.5);
+        }
+
+        /* --- SPECIAL TILES --- */
+        /* Updated hero gradient to match ruby pink */
+        .hero-tile {
+            background: linear-gradient(135deg, rgba(255, 0, 85, 0.08), transparent);
+        }
+
+        .vada-pav-tile {
+            background: linear-gradient(135deg, rgba(255, 165, 0, 0.08), transparent);
+            display: flex;
+            flex-direction: row; 
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        /* QR CODE STYLING */
+        .qr-wrapper {
+            width: 70px;
+            height: 70px;
+            background: #fff;
+            padding: 5px;
+            border-radius: 10px;
+            flex-shrink: 0;
+            position: relative;
+            transition: transform 0.2s ease;
+        }
+
+        .vada-pav-tile:hover .qr-wrapper {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 165, 0, 0.4);
+        }
+        
+        .qr-img { width: 100%; height: 100%; object-fit: contain; }
+
+        .click-hint {
+            font-size: 0.65rem;
+            color: var(--text-dim);
+            margin-top: 5px;
+            display: block;
+        }
+
+    </style>
+</head>
+<body>
+
+    <main class="dashboard">
+        
+        <div class="tile col-8">
+            <span class="label">Portfolio</span>
+            <h1>dzynsby<br>soham</h1>
+        </div>
+
+        <div class="tile col-4" style="justify-content: space-between;">
+            <div>
+                <span class="label">Status</span>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <div style="width:8px; height:8px; background:var(--accent); border-radius:50%; box-shadow: 0 0 10px var(--accent);"></div>
+                    <span class="value text-accent" style="font-size: 0.9rem; letter-spacing: 1px;">AVAILABLE</span>
+                </div>
+            </div>
+            <div style="margin-top: auto; padding-top: 1rem;">
+                <span class="label">Role</span>
+                <span class="value">Creative Designer</span>
+            </div>
+        </div>
+
+        <div class="tile col-8 hero-tile">
+            <span class="label">Introduction</span>
+            <h2 style="font-size: clamp(1.5rem, 3vw, 2.2rem); margin-top: 5px;">Visuals that <span class="text-accent">Get Clicks</span></h2>
+            <p class="text-dim" style="max-width: 90%; margin-top: 8px;">
+                Specializing in high-performance thumbnails and creative design for crypto, gaming, and finance creators.
+            </p>
+        </div>
+
+        <div class="tile col-2" style="align-items: center; justify-content: center; text-align: center;">
+            <div class="big-stat text-accent">4+</div>
+            <span class="label" style="margin-top: 8px; margin-bottom: 0;">Years</span>
+        </div>
+
+        <div class="tile col-2" style="align-items: center; justify-content: center; text-align: center;">
+            <div class="big-stat">500+</div>
+            <span class="label" style="margin-top: 8px; margin-bottom: 0;">Works</span>
+        </div>
+
+        <div class="tile col-4">
+            <span class="label">Service 01</span>
+            <h2 class="value">Thumbnail Design</h2>
+            <p class="text-dim">High CTR visuals tailored for YouTube algorithms.</p>
+        </div>
+        <div class="tile col-4">
+            <span class="label">Service 02</span>
+            <h2 class="value">Channel Branding</h2>
+            <p class="text-dim">Complete visual identity including banners & logos.</p>
+        </div>
+        <div class="tile col-4">
+            <span class="label">Service 03</span>
+            <h2 class="value">Social Assets</h2>
+            <p class="text-dim">Posters, Instagram stories, and promo materials.</p>
+        </div>
+
+        <div class="col-12" style="margin-top: 1.5rem;">
+            <span class="label">Selected Works</span>
+        </div>
+
+        <a href="https://youtu.be/g4vp9gd84wA" target="_blank" class="tile col-4">
+            <div class="port-img-container">
+                <img src="Images/Thumbnail1.jpg" alt="Work" class="port-img">
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+                <div>
+                    <div class="value" style="font-size:1rem;">10x Crypto Returns</div>
+                    <span class="text-dim" style="font-size: 0.8rem;">Finance</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="https://youtu.be/S-8vBJzrO40" target="_blank" class="tile col-4">
+            <div class="port-img-container">
+                <img src="Images/Thumbnail2.jpg" alt="Work" class="port-img">
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+                <div>
+                    <div class="value" style="font-size:1rem;">Divine Time</div>
+                    <span class="text-dim" style="font-size: 0.8rem;">Reaction</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="https://youtu.be/z03QAWcUMTw" target="_blank" class="tile col-4">
+            <div class="port-img-container">
+                <img src="Images/Thumbnail3.jpg" alt="Work" class="port-img">
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+                <div>
+                    <div class="value" style="font-size:1rem;">700K Streams</div>
+                    <span class="text-dim" style="font-size: 0.8rem;">Growth</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="https://youtu.be/e-SjEb9iQ0Y" target="_blank" class="tile col-4">
+            <div class="port-img-container">
+                <img src="Images/Thumbnail4.jpg" alt="Work" class="port-img">
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+                <div>
+                    <div class="value" style="font-size:1rem;">Rappers Talent</div>
+                    <span class="text-dim" style="font-size: 0.8rem;">Crypto</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="https://www.youtube.com/@keshavjindal567" target="_blank" class="tile col-4">
+            <div class="port-img-container">
+                <img src="Images/Thumbnail5.jpg" alt="Work" class="port-img">
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+                <div>
+                    <div class="value" style="font-size:1rem;">Select Altcoins</div>
+                    <span class="text-dim" style="font-size: 0.8rem;">Music</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="https://www.youtube.com/@keshavjindal567" target="_blank" class="tile col-4">
+            <div class="port-img-container">
+                <img src="Images/Thumbnail6.jpg" alt="Work" class="port-img">
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+                <div>
+                    <div class="value" style="font-size:1rem;">Trading Results</div>
+                    <span class="text-dim" style="font-size: 0.8rem;">Trading</span>
+                </div>
+            </div>
+        </a>
+
+        <div class="col-12" style="margin-top: 1.5rem;">
+            <span class="label">Work With Me</span>
+        </div>
+
+        <div class="tile col-4">
+            <span class="label">Instant Chat</span>
+            <h2 class="value" style="font-size: 1.2rem; margin-bottom: 1rem;">WhatsApp</h2>
+            <a href="https://wa.me/8329014831" class="btn btn-whatsapp">Chat Now</a>
+        </div>
+
+        <div class="tile col-4">
+            <span class="label">Social Profile</span>
+            <h2 class="value" style="font-size: 1.2rem; margin-bottom: 1rem;">Instagram</h2>
+            <a href="https://instagram.com/dzynsbysoham" class="btn btn-instagram">View Profile</a>
+        </div>
+
+        <div class="tile col-4 vada-pav-tile" onclick="downloadQR()" title="Click anywhere to Download QR">
+            <div style="display: flex; flex-direction: column; justify-content: center;">
+                <span class="label" style="color: rgba(255,255,255,0.7); margin-bottom: 5px;">Support</span>
+                <h2 class="value" style="font-size: 1.2rem; color: #ffa500; line-height: 1.2;">Buy me a<br>Vada Pav 🍔</h2>
+                <span class="click-hint">Tap anywhere to Download QR</span>
+            </div>
+            
+            <div class="qr-wrapper">
+                <img src="Images/pay.png" alt="QR" class="qr-img">
+            </div>
+        </div>
+
+        <div class="col-12" style="text-align: center; margin-top: 2rem; border-top: 1px solid var(--tile-border); padding-top: 2rem;">
+            <p class="text-dim" style="font-size: 0.8rem;">&copy; 2025 dzynsbysoham. All rights reserved.</p>
+        </div>
+
+    </main>
+
+    <script>
+        function downloadQR() {
+            // Path to your QR code image
+            const qrImageUrl = 'Images/pay.png';
+            
+            // Create a temporary link element
+            const link = document.createElement('a');
+            link.href = qrImageUrl;
+            
+            // Set the filename for the downloaded file
+            link.download = 'Soham_Payment_QR.png';
+            
+            // Append, click, and remove
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+
+</body>
+</html>
